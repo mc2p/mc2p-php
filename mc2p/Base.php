@@ -86,8 +86,12 @@ class ObjectItem extends ObjectItemMixin
      *
      * @param string   $name
      */
-    public function __get(string $name) 
+    public function __get($name) 
     {
+        print_r($name.'\n');
+
+        var_dump($this->payload);
+
         return $this->payload[$name];
     }
 
@@ -97,7 +101,7 @@ class ObjectItem extends ObjectItemMixin
      * @param string   $name
      * @param string   $value
      */
-    public function __set(string $name , mixed $value) 
+    public function __set($name , mixed $value) 
     {
         switch ($name) {
             case 'payload':
