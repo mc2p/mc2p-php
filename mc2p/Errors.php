@@ -1,7 +1,8 @@
 <?php
 
-namespace mc2p\Exceptions;
+namespace MyChoice2Pay;
 
+use Exception;
 
 /**
  * MC2P Error - class used to manage the exceptions related with mc2p library
