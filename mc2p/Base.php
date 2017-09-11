@@ -1,5 +1,9 @@
 <?php
 
+namespace MyChoice2Pay;
+
+require_once('Mixins.php');
+
 /**
  * Paginator - class used on list requests
  */
