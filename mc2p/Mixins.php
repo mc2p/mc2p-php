@@ -22,20 +22,12 @@ class ObjectItemMixin
 
     public function hasID()
     {
-        if (!isset($this->payload[self::ID_PROPERTY]))
-        {
-            throw new BadUseMC2PError('Object don\'t have ID');
-        }
-        return true;
+        return !isset($this->payload[self::ID_PROPERTY]);
     }
 
     private function __isNotDeleted()
     {
-        if ($this->_deleted === true) 
-        {
-            throw new BadUseMC2PError('Object has been deleted');            
-        }
-        return false;
+        return $this->_deleted === true;
     }
 
     private function getId() 
@@ -43,6 +35,8 @@ class ObjectItemMixin
         if ($this->hasID() && $this->__isNotDeleted()) 
         {
             return $this->payload[self::ID_PROPERTY];
+        } else {
+            throw new BadUseMC2PError('Object has been deleted');  
         }
     }
 }
