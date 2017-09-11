@@ -1,5 +1,7 @@
 <?php
 
+namespace MyChoice2Pay;
+
 /**
  * Class to manage notification from MyChoice2Pay
  */
