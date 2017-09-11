@@ -20,7 +20,7 @@ class ObjectItemMixin
         return __CLASS__." {$this->payload}";
     }
 
-    private function __hasID()
+    public function hasID()
     {
         if (!isset($this->payload[self::ID_PROPERTY]))
         {
@@ -40,7 +40,7 @@ class ObjectItemMixin
 
     private function getId() 
     {
-        if ($this->__hasID() && $this->__isNotDeleted()) 
+        if ($this->hasID() && $this->__isNotDeleted()) 
         {
             return $this->payload[self::ID_PROPERTY];
         }
@@ -99,7 +99,7 @@ class CreateObjectItemMixin extends ObjectItemMixin
      */
     public function save()
     {
-        if (!$this->__hasID())
+        if (!$this->hasID())
         {
             $this->__create();
         }
@@ -127,7 +127,7 @@ class SaveObjectItemMixin extends CreateObjectItemMixin
      */
     public function save()
     {
-        if ($this->__hasID())
+        if ($this->hasID())
         {
             $this->__change();
         } else {
@@ -219,7 +219,7 @@ class PayURLMixin extends ObjectItemMixin
     
     public function getPayUrl()
     {   
-        if ($this->__hasID() && $this->__isNotDeleted()) 
+        if ($this->hasID() && $this->__isNotDeleted()) 
         {
             $token = $this->payload['token'];
             return self::PAY_URL."{$token}";
