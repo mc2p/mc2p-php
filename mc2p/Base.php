@@ -264,7 +264,7 @@ class CRUDObjectItem extends CRUObjectItem
 /**
  * Object item that allows retrieve, create and to get pay_url based on token of an item
  */
- class PayURLCRObjectItem extends ReadOnlyObjectItem
+ class PayURLCRObjectItem extends CRObjectItem
 {
     protected $payURLMixin;
 
