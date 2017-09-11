@@ -1,5 +1,9 @@
 <?php
 
+namespace MyChoice2Pay;
+
+require_once('Errors.php');
+
 /**
  * Basic info of the object item
  */
