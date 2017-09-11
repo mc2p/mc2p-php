@@ -1,11 +1,11 @@
 <?php
 
-function decorator($class, $resource)
-{
-    $payload = $class::get();
-    $obj = new $class($payload, $resource);
-    return $obj;
-}
+namespace MyChoice2Pay;
+
+require_once('Request.php');
+require_once('Objects.php');
+require_once('Resources.php');
+require_once('Notification.php');
 
 /**
  * MC2P - class used to manage the communication with MyChoice2Pay API
@@ -21,32 +21,38 @@ class APIClient
     public function __construct($key, $secret) 
     {
         $this->apiRequest = new APIRequest($key, $secret);
-        
-        $this->product = ProductResource($this->apiRequest);
-        $this->plan = PlanResource($this->apiRequest);
-        $this->tax = TaxResource($this->apiRequest);
-        $this->shipping = ShippingResource($this->apiRequest);
-        $this->coupon = CouponResource($this->apiRequest);
-        $this->transaction = TransactionResource($this->apiRequest);
-        $this->subscription = SubscriptionResource($this->apiRequest);
-        $this->sale = SaleResource($this->apiRequest);
-        $this->currency = CurrencyResource($this->apiRequest);
-        $this->gateway = GatewayResource($this->apiRequest);
-        $this->payData = PayDataResource($this->apiRequest);   
 
-        $this->Product = decorator('Product', $this->product);
-        $this->Plan = decorator('Plan', $this->plan);
-        $this->Tax = decorator('Tax', $this->tax);
-        $this->Shipping = decorator('Shipping', $this->shipping);
-        $this->Coupon = decorator('Coupon', $this->coupon);
-        $this->Transaction = decorator('Transaction', $this->transaction);
-        $this->Subscription = decorator('Subscription', $this->subscription);
-        $this->Sale = decorator('Sale', $this->sale);
-        $this->Currency = decorator('Currency', $this->currency);
-        $this->Gateway = decorator('Gateway', $this->gateway);
-        $this->PayData = decorator('PayData', $this->payData);
+        $this->product = new ProductResource($this->apiRequest);
+        $this->plan = new PlanResource($this->apiRequest);
+        $this->tax = new TaxResource($this->apiRequest);
+        $this->shipping = new ShippingResource($this->apiRequest);
+        $this->coupon = new CouponResource($this->apiRequest);
+        $this->transaction = new TransactionResource($this->apiRequest);
+        $this->subscription = new SubscriptionResource($this->apiRequest);
+        $this->sale = new SaleResource($this->apiRequest);
+        $this->currency = new CurrencyResource($this->apiRequest);
+        $this->gateway = new GatewayResource($this->apiRequest);
+        $this->payData = new PayDataResource($this->apiRequest);   
 
-        $this->NotificationData = decorator('NotificationData', $this);
+        $this->Product = decorator('MyChoice2Pay\Product', $this->product);
+        $this->Plan = decorator('MyChoice2Pay\Plan', $this->plan);
+        $this->Tax = decorator('MyChoice2Pay\Tax', $this->tax);
+        $this->Shipping = decorator('MyChoice2Pay\Shipping', $this->shipping);
+        $this->Coupon = decorator('MyChoice2Pay\Coupon', $this->coupon);
+        $this->Transaction = decorator('MyChoice2Pay\Transaction', $this->transaction);
+        $this->Subscription = decorator('MyChoice2Pay\Subscription', $this->subscription);
+        $this->Sale = decorator('MyChoice2Pay\Sale', $this->sale);
+        $this->Currency = decorator('MyChoice2Pay\Currency', $this->currency);
+        $this->Gateway = decorator('MyChoice2Pay\Gateway', $this->gateway);
+        $this->PayData = decorator('MyChoice2Pay\PayData', $this->payData);
+
+        $this->NotificationData = decorator('MyChoice2Pay\NotificationData', $this);
     }
+}
 
+function decorator($class, $resource)
+{
+    $payload = $class::get();
+    $obj = new $class($payload, $resource);
+    return $obj;
 }
