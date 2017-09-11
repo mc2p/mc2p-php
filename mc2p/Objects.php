@@ -1,5 +1,10 @@
 <?php
 
+namespace MyChoice2Pay;
+
+require_once('Base.php');
+require_once('Mixins.php');
+
 /**
  * Product object
  */
