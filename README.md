@@ -14,7 +14,7 @@ You can install using `composer`:
 
 # Quick Start Example
 
-    require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
+    require_once __DIR__ . '/vendor/autoload.php'; // Autoload files using Composer autoload
 
     use MC2P\MC2PClient;
 
@@ -40,69 +40,88 @@ You can install using `composer`:
     $transaction->getIframeUrl() # Use this url to show an iframe in your site
 
     # Get plans
-    plans_paginator = mc2p.plan.list()
-    plans_paginator.count
-    plans_paginator.results # Application's plans
-    plans_paginator.get_next_list()
+    $plansPaginator = $mc2p->plan->itemList(null);
+    $count = $plansPaginator->count;
+    $results = $plansPaginator->results; # Application's plans
+    $nextList = $plansPaginator->getNextList();
 
     # Get product, change and save
-    product = mc2p.Product.get("PRODUCT-ID")
-    product.price = 10
-    product.save()
+    $product = $mc2p->Product(
+        array(
+            "id" => "PRODUCT-ID"
+        )
+    );
+    $product->retrieve();
+    $product->price = 10;
+    $product->save();
 
     # Create and delete tax
-    tax = mc2p.Tax({
-        "name": "Tax",
-        "percent": 5
-    })
-    tax.save()
-    tax.delete()
+    $tax = $mc2p->Tax(
+        array(
+            "name" => "Tax",
+            "percent" => 5
+        )
+    );
+    $tax->save();
+    $tax->delete();
 
     # Check if transaction was paid
-    transaction = mc2p.Transaction.get("TRANSACTION-ID")
-    transaction.status == 'D' # Paid
+    $transaction = $mc2p->Transaction(
+        array(
+            "id" => "c8325bb3-c24e-4c0c-b0ff-14fe89bf9f1f"
+        )
+    );
+    $transaction->retrieve();
+    $transaction->status == 'D' # Paid
 
     # Create subscription
-    subscription = mc2p.Subscription({
-        "currency": "EUR",
-        "plan_id": "PLAN-ID",
-        "note": "Note example"
-    })
+    $subscription = $mc2p->Subscription(
+        array(
+            "currency" => "EUR",
+            "plan_id" => "PLAN-ID",
+            "note" => "Note example"
+        )
+    )
     # or
-    subscription = mc2p.Subscription({
-        "currency": "EUR",
-        "plan": {
-            "name": "Plan",
-            "price": 5,
-            "duration": 1,
-            "unit": "M",
-            "recurring": True
-        },
-        "note": "Note example"
-    })
-    subscription.save()
-    subscription.pay_url # Send user to this url to pay
-    subscription.iframe_url # Use this url to show an iframe in your site
+    $subscription = $mc2p->Subscription(
+        array(
+            "currency" => "EUR",
+            "plan" => array(
+                "name" => "Plan",
+                "price" => 5,
+                "duration" => 1,
+                "unit" => "M",
+                "recurring" => True
+            ),
+            "note" => "Note example"
+        )
+    );
+    $subscription->save()
+    $subscription->getPayUrl() # Send user to this url to pay
+    $subscription->getIframeUrl() # Use this url to show an iframe in your site
 
     # Receive a notification
-    notification_data = mc2p.NotificationData(JSON_DICT_RECEIVED_FROM_MYCHOICE2PAY)
-    notification_data.status == 'D' # Paid
-    notification_data.transaction # Transaction Paid
-    notification_data.sale # Sale generated
+    $notificationData = $mc2p->NotificationData(JSON_DICT_RECEIVED_FROM_MYCHOICE2PAY, $mc2p);
+    $notificationData->getStatus() == 'D'; # Paid
+    $notificationData->getTransaction(); # Transaction Paid
+    $notificationData->getSale(); # Sale generated
 
 # Exceptions
 
-    from mc2p.errors import InvalidRequestError
+    require_once __DIR__ . '/vendor/autoload.php'; // Autoload files using Composer autoload
 
+    use MC2P\MC2PClient;
+    
     # Incorrect data
-    shipping = mc2p.Shipping({
-        "name": "Normal shipping",
-        "price": "text" # Price must be number
-    })
-    try:
-        shipping.save()
-    except InvalidRequestError as e:
-        e._message # Status code of error
-        e.json_body # Info from server
-        e.resource # Resource used to make the server request
-        e.resource_id # Resource id requested
+    $shipping = $mc2p->Shipping(
+        array(
+            "name" => "Normal shipping",
+            "price" => "text" # Price must be number
+        )
+    );
+
+    try {
+        $shipping->save();
+    } catch (MC2P\InvalidRequestMC2PError $e) {
+        $e->getMessage(); # Status code
+    }
