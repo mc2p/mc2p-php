@@ -43,7 +43,7 @@ class APIRequest
      */
     private function __getAbsURL ($path)
     {
-        return "https://{self::API_URL}{$path}";
+        return "https://".self::API_URL."{$path}";
     }
 
     /**
@@ -53,9 +53,10 @@ class APIRequest
      */
     private function __getHeaders ()
     {
+        $header = self::AUTHORIZATION_HEADER;
         return array(
-            "authorization" => "{self::AUTHORIZATION_HEADER} {$this->key}:{$this->secret}",
-            "content-type" => "application/json",
+            "authorization: {$header} {$this->key}:{$this->secret}",
+            "content-type: application/json",
         );
     }
 
@@ -93,11 +94,11 @@ class APIRequest
         
         $result = json_decode($response);
 
-        if (!$result || $httpCode != $status) 
+        if (!$response || $httpCode != $status) 
         { 
-            throw new InvalidRequestError("Error {$httpCode}", $result, $resource, $resourceId);
+            throw new InvalidRequestMC2PError("Error {$httpCode}", $result, $resource, $resourceId);
         } 
-        elseif (status_code === 204) 
+        elseif ($httpCode === 204) 
         {
             return array();
         }
