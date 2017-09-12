@@ -1,6 +1,6 @@
 <?php
 
-namespace MyChoice2Pay;
+namespace MC2P;
 
 require_once('Base.php');
 require_once('Mixins.php');
@@ -63,8 +63,8 @@ class SaleResource extends ReadOnlyResource
      */
     public function __construct ($apiRequest, $path, $objItemClass) 
     {
-        $rCVResourceMixin = new RefundCaptureVoidResourceMixin($apiRequest, $path, $objItemClass);
         parent::__construct($apiRequest, $path, $objItemClass);
+        $rCVResourceMixin = new RefundCaptureVoidResourceMixin($apiRequest, $path, $objItemClass, $this->paginatorClass);
     }
         
     /**
@@ -113,8 +113,8 @@ class PayDataResource extends DetailOnlyResource
      */
     public function __construct ($apiRequest, $path, $objItemClass) 
     {
-        $cardShareResourceMixin = new CardShareResourceMixin($apiRequest, $path, $objItemClass);
         parent::__construct($apiRequest, $path, $objItemClass);
+        $cardShareResourceMixin = new CardShareResourceMixin($apiRequest, $path, $objItemClass, $this->paginatorClass);
     }
 
     /**
