@@ -1,12 +1,16 @@
 #!/usr/bin/php
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
+
+use MC2P\APIClient;
+
 // Upload a publicly accessible file. The file size and type are determined by the SDK.
 try {
     $key = 'fd1e7e20a676';
     $secret = 'a88402f080b54547ad07114a13c1a375';
 
-    $client = new MC2P\APIClient($key, $secret);
+    $client = new APIClient($key, $secret);
 
     # Create transaction
     $transaction = $client->Transaction(
