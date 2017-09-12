@@ -11,9 +11,19 @@ class ObjectItemMixin
 {
     protected $payload;
     protected $resource;
-    private $_deleted = False;
+    protected $_deleted = False;
     
     const ID_PROPERTY = 'id';
+
+    /**
+     * @param array     $payload
+     * @param array     $resource
+     */
+    public function __construct ($payload, $resource) 
+    {
+        $this->payload = $payload;
+        $this->resource = $resource;
+    }
 
     public function __toString()
     {
@@ -22,15 +32,15 @@ class ObjectItemMixin
 
     public function hasID()
     {
-        return !isset($this->payload[self::ID_PROPERTY]);
+        return isset($this->payload->{self::ID_PROPERTY});
     }
 
-    private function __isNotDeleted()
+    protected function __isNotDeleted()
     {
-        return $this->_deleted === true;
+        return $this->_deleted !== true;
     }
 
-    private function getId() 
+    protected function getId() 
     {
         if ($this->hasID() && $this->__isNotDeleted()) 
         {
@@ -82,7 +92,7 @@ class CreateObjectItemMixin extends ObjectItemMixin
     /**
      * Creates the object item with the json_dict data
      */
-    private function __create()
+    protected function __create()
     {
         $obj = $this->resource->create($this->payload);
         $this->payload = $obj->payload;
@@ -109,7 +119,7 @@ class SaveObjectItemMixin extends CreateObjectItemMixin
     /**
      * Changes the object item with the json_dict data
      */
-    private function __change()
+    protected function __change()
     {
         $id = $this->getId();
         $obj = $this->resource->change($id, $this->payload);
@@ -215,7 +225,7 @@ class PayURLMixin extends ObjectItemMixin
     {   
         if ($this->hasID() && $this->__isNotDeleted()) 
         {
-            $token = $this->payload['token'];
+            $token = $this->payload->token;
             return self::PAY_URL."{$token}";
         }
     }
@@ -232,19 +242,28 @@ class PayURLMixin extends ObjectItemMixin
  */
 class ResourceMixin 
 {
-    const PATH =                '/resource/';
-    const OBJECT_ITEM_CLASS =   null;
-    const PAGINATOR_CLASS =     null;
-
     protected $apiRequest;
-        
+    
+    protected $path;
+    protected $objItemClass;
+    protected $paginatorClass;
+
+    public function __construct($apiRequest, $path, $objItemClass, $paginatorClass)
+    {
+        $this->apiRequest = $apiRequest;
+
+        $this->path = $path;
+        $this->objItemClass = $objItemClass;
+        $this->paginatorClass = $paginatorClass;
+    }
+
     /**
      * @param string $resourceId
      * @return array url to request or change an item
      */
     public function getDetailUrl(string $resourceId)
     {   
-        return self::PATH.$resourceId;
+        return $this->path.$resourceId;
     }
         
     /**
@@ -255,30 +274,28 @@ class ResourceMixin
      * @param string $resourceId
      * @return array Object item from server
      */
-    private function __oneItem($func, array $data = null, string $resourceId = null)
+    protected function __oneItem($func, array $data = null, string $resourceId = null)
     {   
         if (!isset($resourceId))
         {
-            $url = self::PATH;
+            $url = $this->path;
         } else {
             $url = $this->getDetailUrl($resourceId);
         }
 
-        $array = call_user_func($func, $url, $data, $this, $resourceId);
+        $array = call_user_func($func, $url, $data, null, $this, $resourceId);
 
         return $this->getObjectItem($array);
     }
 
     public function getObjectItem($array)
     {
-        $class = self::OBJECT_ITEM_CLASS;
-        return new $class($array, $this);
+        return new $this->objItemClass ($array, $this);
     }
 
     public function getPaginator($payload)
     {
-        $class = self::PAGINATOR_CLASS;
-        return new $class($payload, $this);
+        return new $this->paginatorClass ($payload, $this);
     }
 }
 
@@ -314,7 +331,7 @@ class ReadOnlyResourceMixin extends DetailOnlyResourceMixin
         {
             $payload = $this->apiRequest->get(null, null, $absUrl, $this);
         } else {
-            $payload = $this->apiRequest->get(self::PATH, null, null, $this);            
+            $payload = $this->apiRequest->get($this->path, null, null, $this);            
         }
         
         return $this->getPaginator($payload, $this);
@@ -382,14 +399,14 @@ class ActionsResourceMixin extends ResourceMixin
      */
     public function getDetailActionUrl($resourceId, $action)
     {
-        return self::PATH."{$resourceId}/{$action}/";
+        return $this->path."{$resourceId}/{$action}/";
     }
 
     /**
      * @param string $resourceId
      * @param array $data
      */
-    private function __oneItemAction($func, $resourceId, $action, $data = null) 
+    protected function __oneItemAction($func, $resourceId, $action, $data = null) 
     {
         $url = $this->getDetailActionUrl($resourceId, $action);
         return call_user_func($url, $data, $this, $resourceId);
