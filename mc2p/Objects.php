@@ -75,6 +75,7 @@ class Sale extends ReadOnlyObjectItem
      */
     public function refund(Array $data = null)
     {
+        $this->rCVMixin->payload = $this->payload;
         return $this->rCVMixin->refund($data);
     }
  
@@ -86,6 +87,7 @@ class Sale extends ReadOnlyObjectItem
      */
     public function capture(Array $data = null)
     {
+        $this->rCVMixin->payload = $this->payload;        
         return $this->rCVMixin->capture($data);
     }
  
@@ -97,6 +99,7 @@ class Sale extends ReadOnlyObjectItem
      */
     public function void(Array $data = null)
     {
+        $this->rCVMixin->payload = $this->payload;        
         return $this->rCVMixin->void($data);
     }
 }
@@ -129,6 +132,7 @@ class PayData extends ReadOnlyObjectItem
      */
     public function card(string $gatewayCode, array $data = null)
     {
+        $this->cardShareMixin->payload = $this->payload;        
         return $this->cardShareMixin->card($gatewayCode, $data);
     }
      
@@ -140,6 +144,7 @@ class PayData extends ReadOnlyObjectItem
      */
     public function share(array $data = null)
     {
+        $this->cardShareMixin->payload = $this->payload;        
         return $this->cardShareMixin->share($data);        
     }
 }
