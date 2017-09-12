@@ -5,6 +5,7 @@
 
 MyChoice2Pay PHP provides integration access to the MyChoice2Pay API.
 
+[![Build Status](https://travis-ci.org/mc2p/mc2p-php.svg?branch=master)](https://travis-ci.org/mc2p/mc2p-php)
 
 # Installation
 
