@@ -63,7 +63,7 @@ class Sale extends ReadOnlyObjectItem
      */
     public function __construct ($payload, $resource) 
     {
-        $this->rCVMixin = new RefundCaptureVoidObjectItemMixin();
+        $this->rCVMixin = new RefundCaptureVoidObjectItemMixin($payload, $resource);
         parent::__construct($payload, $resource);
     }
     
