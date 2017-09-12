@@ -22,7 +22,7 @@ try {
                     "amount" => 1,
                     "product" => array(
                         "name" => "Product",
-                        "price" => 6
+                        "price" => 5
                     )
                 )
             )

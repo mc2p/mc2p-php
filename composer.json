@@ -1,0 +1,22 @@
+{
+    "name": "mc2p/mc2p-php",
+    "description": "PHP library for the MyChoice2Pay API.",
+    "keywords": ["mychoice2pay", "mc2p", "rest", "sdk", "api", "payments"],
+    "type": "library",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/mc2p/mc2p-php",
+    "authors": [
+        {
+            "name": "MyChoice2Pay",
+            "homepage": "https://www.mychoice2pay.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "satooshi/php-coveralls": "*"
+    }
+}
