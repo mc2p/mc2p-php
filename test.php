@@ -22,18 +22,24 @@ try {
                     "amount" => 1,
                     "product" => array(
                         "name" => "Product",
-                        "price" => 5
+                        "price" => 6
                     )
                 )
             )
         )
     );
-
     $transaction->save();
 
-    print_r('SAVED!');
+    $pURL = $transaction->getPayUrl();
+    $iURL = $transaction->getIframeUrl();
+    $token = $transaction->token;
+    
 
-    print_r($transaction->pay_url); # Send user to this url to pay
+    var_dump(
+        array('------------PAY URL---------------', $pURL),
+        array('------------IFRAME URL---------------', $iURL),
+        array('------------TOKEN---------------', $token)
+    );
 
 } catch (Exception $e) {
     var_dump($e);
