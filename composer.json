@@ -20,8 +20,8 @@
         "satooshi/php-coveralls": "*"
     },
     "autoload": {
-        "psr-0": {
-            "MC2P": "src/"
+        "psr-4": {
+            "MC2P": "src/MC2P"
         }
     }
 }
