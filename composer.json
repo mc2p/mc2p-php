@@ -18,5 +18,10 @@
     },
     "require-dev": {
         "satooshi/php-coveralls": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "mc2p": "src/"
+        }
     }
 }

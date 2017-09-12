@@ -1,7 +1,9 @@
 #!/usr/bin/php
 <?php
 
-require_once(join(DIRECTORY_SEPARATOR, array('mc2p', 'MC2P.php')));
+use mc2p\MC2P as mc2p;
+
+require_once(join(DIRECTORY_SEPARATOR, array('MC2P', 'MC2P.php')));
 
 use MC2P as mc2p;
 
