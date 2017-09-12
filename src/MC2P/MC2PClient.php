@@ -10,7 +10,7 @@ require_once('Notification.php');
 /**
  * MC2P - class used to manage the communication with MyChoice2Pay API
  */
-class APIClient 
+class MC2PClient
 {
     protected $apiRequest;
 
