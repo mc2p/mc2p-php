@@ -1,19 +1,12 @@
 #!/usr/bin/php
 <?php
 
-use mc2p\MC2P as mc2p;
-
-require_once(join(DIRECTORY_SEPARATOR, array('MC2P', 'MC2P.php')));
-
-use MC2P as mc2p;
-
-
 // Upload a publicly accessible file. The file size and type are determined by the SDK.
 try {
     $key = 'fd1e7e20a676';
     $secret = 'a88402f080b54547ad07114a13c1a375';
 
-    $client = new mc2p\APIClient($key, $secret);
+    $client = new MC2P\APIClient($key, $secret);
 
     # Create transaction
     $transaction = $client->Transaction(

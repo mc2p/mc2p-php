@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "MC2P": "src/MC2P"
+            "MC2P\\": "src/MC2P"
         }
     }
 }
