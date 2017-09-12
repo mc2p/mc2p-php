@@ -89,7 +89,16 @@ class NotificationData
         }
 
         $id = $this->getId();
-        return $this->mc2p->Transaction->get($id);
+        if (isset($id)) {
+            $transaction = $this->mc2p->Transaction(
+                array(
+                    "id" => $id
+                )
+            );
+            $transaction->retrieve();
+            return $transaction;
+        }
+        return null;
     }
 
     /**
@@ -105,7 +114,16 @@ class NotificationData
         }
 
         $id = $this->getId();
-        return $this->mc2p->Subscription->get($id);
+        if (isset($id)) {
+            $subscription = $this->mc2p->Subscription(
+                array(
+                    "id" => $id
+                )
+            );
+            $subscription->retrieve();
+            return $subscription;
+        }
+        return null;
     }
 
     /**
@@ -113,7 +131,15 @@ class NotificationData
      */
     public function getSale() 
     {
-        $id = $this->getId();
-        return (isset($this->payload['sale_id'])) ? $this->mc2p->Sale->get($id) : null;
+        if (isset($this->payload['sale_id'])) {
+            $sale = $this->mc2p->Sale(
+                array(
+                    "id" => $this->payload['sale_id']
+                )
+            );
+            $sale->retrieve();
+            return $sale;
+        }
+        return null;
     }
 }
