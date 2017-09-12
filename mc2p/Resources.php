@@ -9,101 +9,62 @@ require_once('Objects.php');
 /**
  * Product resource
  */
-class ProductResource extends CRUDResource
-{
-    const PATH = '/product/';
-    const OBJECT_ITEM_CLASS = 'Product';
-}
+class ProductResource extends CRUDResource {}
 
 /**
  * Plan resource
  */
-class PlanResource extends CRUDResource
-{
-    const PATH = '/plan/';
-    const OBJECT_ITEM_CLASS = 'Plan';
-}
+class PlanResource extends CRUDResource {}
 
 /**
  * Tax resource
  */
-class TaxResource extends CRUDResource
-{
-    const PATH = '/tax/';
-    const OBJECT_ITEM_CLASS = 'Tax';
-}
+class TaxResource extends CRUDResource {}
 
 /**
  * Shipping resource
  */
-class ShippingResource extends CRUDResource
-{
-    const PATH = '/shipping/';
-    const OBJECT_ITEM_CLASS = 'Shipping';
-}
+class ShippingResource extends CRUDResource {}
 
 /**
  * Coupon resource
  */
-class CouponResource extends CRUDResource
-{
-    const PATH = '/coupon/';
-    const OBJECT_ITEM_CLASS = 'Coupon';
-}
+class CouponResource extends CRUDResource {}
 
 /**
  * Transaction resource
  */
-class TransactionResource extends CRResource
-{
-    const PATH = '/transaction/';
-    const OBJECT_ITEM_CLASS = 'Transaction';
-}
+class TransactionResource extends CRResource {}
 
 /**
  * Subscription resource
  */
-class SubscriptionResource extends CRResource
-{
-    const PATH = '/subscription/';
-    const OBJECT_ITEM_CLASS = 'Subscription';
-}
+class SubscriptionResource extends CRResource {}
 
 /**
  * Currency resource
  */
-class CurrencyResource extends ReadOnlyResource
-{
-    const PATH = '/currency/';
-    const OBJECT_ITEM_CLASS = 'Currency';
-}
+class CurrencyResource extends ReadOnlyResource {}
  
 /**
  * Gateway resource
  */
-class GatewayResource extends ReadOnlyResource
-{
-    const PATH = '/gateway/';
-    const OBJECT_ITEM_CLASS = 'Gateway';
-}
+class GatewayResource extends ReadOnlyResource {}
  
 /**
  * Sale resource
  */
 class SaleResource extends ReadOnlyResource
 {
-    const PATH = '/sale/';
-    const OBJECT_ITEM_CLASS = 'Sale';
-
     protected $rCVResourceMixin;
     
     /**
      * @param array    $apiRequest
      */
-    public function __construct ($apiRequest) 
+    public function __construct ($apiRequest, $path, $objItemClass) 
     {
-        $rCVResourceMixin = new RefundCaptureVoidResourceMixin();
-        parent::__construct($apiRequest);
+        $rCVResourceMixin = new RefundCaptureVoidResourceMixin($apiRequest, $path, $objItemClass);
+        parent::__construct($apiRequest, $path, $objItemClass);
     }
         
     /**
@@ -145,18 +106,15 @@ class SaleResource extends ReadOnlyResource
  */
 class PayDataResource extends DetailOnlyResource
 {
-    const PATH = '/pay/';
-    const OBJECT_ITEM_CLASS = 'PayData';
-
     protected $cardShareResourceMixin;
     
     /**
      * @param array    $apiRequest
      */
-    public function __construct ($apiRequest) 
+    public function __construct ($apiRequest, $path, $objItemClass) 
     {
-        $cardShareResourceMixin = new CardShareResourceMixin();
-        parent::__construct($apiRequest);
+        $cardShareResourceMixin = new CardShareResourceMixin($apiRequest, $path, $objItemClass);
+        parent::__construct($apiRequest, $path, $objItemClass);
     }
 
     /**
