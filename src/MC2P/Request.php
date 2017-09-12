@@ -94,7 +94,7 @@ class APIRequest
         
         $result = json_decode($response);
 
-        if (!$response || $httpCode != $status) 
+        if ($httpCode != $status)
         { 
             throw new InvalidRequestMC2PError("Error {$httpCode}", $result, $resource, $resourceId);
         } 
