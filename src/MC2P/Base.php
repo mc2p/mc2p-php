@@ -9,9 +9,10 @@ require_once('Mixins.php');
  */
 class Paginator
 {
+    public $count;
+
     protected $resource;
-    protected $result;  
-    protected $count;   
+    protected $result;
 
     private $previous;
     private $next;
@@ -21,15 +22,15 @@ class Paginator
      * @param string   $objectItemClass
      * @param string   $resource
      */
-    public function __construct($payload, $objectItemClass, $resource) 
+    public function __construct($payload, $objectItemClass, $resource)
     {
-        $this->count = (isset($payload['count'])) ? $payload['count'] : 0;
-        $this->previous = (isset($payload['previous'])) ? $payload['previous'] : 0;
-        $this->next = (isset($payload['next'])) ? $payload['next'] : 0;
+        $this->count = (isset($payload->count)) ? $payload->count : 0;
+        $this->previous = (isset($payload->previous)) ? $payload->previous : NULL;
+        $this->next = (isset($payload->next)) ? $payload->next : NULL;
 
         $this->results = array();
-        $results = (isset($payload['results'])) ? $payload['results'] : array();
-        
+        $results = (isset($payload->results)) ? $payload->results : array();
+
         foreach ($results as $val)
         {
             $objectItem = new $objectItemClass($val, $resource);
@@ -42,7 +43,7 @@ class Paginator
     /**
      * Paginator object with the previous items
      */
-    public function getPreviousList() 
+    public function getPreviousList()
     {
         return (isset($this->previous))
             ? $this->resource->itemList($this->previous)
@@ -52,7 +53,7 @@ class Paginator
     /**
      * Paginator object with the next items
      */
-    public function getNextList() 
+    public function getNextList()
     {
         return (isset($this->next))
             ? $this->resource->itemList($this->next)
@@ -97,6 +98,9 @@ class ObjectItem extends ObjectItemMixin
                 return $this->_deleted;
 
             default:
+                if (is_array($this->payload)) {
+                    return $this->payload[$name];
+                }
                 return $this->payload->{$name};
         }
     }
@@ -314,7 +318,7 @@ class CRUDObjectItem extends CRUObjectItem
  */
 class Resource extends ResourceMixin
 {
-    const PAGINATOR_CLASS = 'Paginator';
+    const PAGINATOR_CLASS = 'MC2P\Paginator';
 
     /**
      * @param array    $apiRequest
@@ -354,7 +358,7 @@ class DetailOnlyResource extends Resource
 /**
  * Resource that allows send requests of list and detail
  */
-class ReadOnlyResource extends Resource
+class ReadOnlyResource extends DetailOnlyResource
 {
     protected $roResourceMixin;
 

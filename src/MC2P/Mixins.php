@@ -32,7 +32,14 @@ class ObjectItemMixin
 
     public function hasID()
     {
-        return isset($this->payload->{self::ID_PROPERTY});
+        $isSet = False;
+
+        if (is_array($this->payload)) {
+            $isSet = isset($this->payload[self::ID_PROPERTY]);
+        } else {
+            $isSet = isset($this->payload->{self::ID_PROPERTY});
+        }
+        return $isSet;
     }
 
     protected function __isNotDeleted()
@@ -261,7 +268,7 @@ class ResourceMixin
      * @param string $resourceId
      * @return array url to request or change an item
      */
-    public function getDetailUrl(string $resourceId)
+    public function getDetailUrl($resourceId)
     {   
         return $this->path.$resourceId;
     }
@@ -274,7 +281,7 @@ class ResourceMixin
      * @param string $resourceId
      * @return array Object item from server
      */
-    protected function __oneItem($func, array $data = null, string $resourceId = null)
+    protected function __oneItem($func, array $data = null, $resourceId = null)
     {   
         if (!isset($resourceId))
         {
@@ -295,7 +302,7 @@ class ResourceMixin
 
     public function getPaginator($payload)
     {
-        return new $this->paginatorClass ($payload, $this);
+        return new $this->paginatorClass ($payload, $this->objItemClass, $this);
     }
 }
 
