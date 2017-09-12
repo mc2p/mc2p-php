@@ -111,7 +111,7 @@ class ObjectItem extends ObjectItemMixin
      * @param string   $name
      * @param string   $value
      */
-    public function __set($name , mixed $value) 
+    public function __set($name, $value)
     {
         switch ($name) {
             case 'payload':
@@ -124,7 +124,10 @@ class ObjectItem extends ObjectItemMixin
                 $this->_deleted = $value;
                 break;
             default:
-                $this->payload[$name] = $value;
+                if (is_array($this->payload)) {
+                    $this->payload[$name] = $value;
+                }
+                $this->payload->{$name} = $value;
                 break;
         }
     }
@@ -169,6 +172,7 @@ class ReadOnlyObjectItem extends ObjectItem
      */
     public function retrieve()
     {
+        $this->retrieveMixin->payload = $this->payload;
         $this->retrieveMixin->retrieve();
         $this->payload = $this->retrieveMixin->payload;
     }
@@ -196,6 +200,7 @@ class CRObjectItem extends ReadOnlyObjectItem
      */
     private function __create()
     {
+        $this->createMixin->payload = $this->payload;
         $this->createMixin->__create();
         $this->payload = $this->createMixin->payload;   
     }
@@ -205,6 +210,7 @@ class CRObjectItem extends ReadOnlyObjectItem
      */
     public function save()
     {
+        $this->createMixin->payload = $this->payload;
         $this->createMixin->save();
         $this->payload = $this->createMixin->payload;        
     }
@@ -232,8 +238,9 @@ class CRUObjectItem extends CRObjectItem
      */
     private function __create()
     {
-        $this->createMixin->__create();
-        $this->payload = $this->createMixin->payload;   
+        $this->saveMixin->payload = $this->payload;
+        $this->saveMixin->__create();
+        $this->payload = $this->saveMixin->payload;
     }
  
     /**
@@ -241,6 +248,7 @@ class CRUObjectItem extends CRObjectItem
      */
     private function __change()
     {
+        $this->saveMixin->payload = $this->payload;
         $this->saveMixin->__create();
         $this->payload = $this->saveMixin->payload;   
     }
@@ -250,6 +258,7 @@ class CRUObjectItem extends CRObjectItem
      */
     public function save()
     {
+        $this->saveMixin->payload = $this->payload;
         $this->saveMixin->save();
         $this->payload = $this->saveMixin->payload;
     }
@@ -277,7 +286,10 @@ class CRUDObjectItem extends CRUObjectItem
      */
     public function delete()
     {
+        $this->deleteMixin->payload = $this->payload;
+        $this->deleteMixin->_deleted = $this->_deleted;
         $this->deleteMixin->delete();
+        $this->payload = $this->deleteMixin->payload;
         $this->_deleted = $this->deleteMixin->_deleted;
     }
 }

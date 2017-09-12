@@ -51,7 +51,10 @@ class ObjectItemMixin
     {
         if ($this->hasID() && $this->__isNotDeleted()) 
         {
-            return $this->payload[self::ID_PROPERTY];
+            if (is_array($this->payload)) {
+                return $this->payload[self::ID_PROPERTY];
+            }
+            return $this->payload->{self::ID_PROPERTY};
         } else {
             throw new BadUseMC2PError('Object has been deleted');  
         }
@@ -270,7 +273,7 @@ class ResourceMixin
      */
     public function getDetailUrl($resourceId)
     {   
-        return $this->path.$resourceId;
+        return $this->path.$resourceId.'/';
     }
         
     /**
@@ -281,7 +284,7 @@ class ResourceMixin
      * @param string $resourceId
      * @return array Object item from server
      */
-    protected function __oneItem($func, array $data = null, $resourceId = null)
+    protected function __oneItem($func, $data = null, $resourceId = null)
     {   
         if (!isset($resourceId))
         {
