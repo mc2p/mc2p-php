@@ -1,6 +1,6 @@
 <?php
 
-namespace MyChoice2Pay;
+namespace MC2P;
 
 require_once('Errors.php');
 

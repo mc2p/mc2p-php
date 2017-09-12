@@ -1,6 +1,6 @@
 <?php
 
-namespace MyChoice2Pay;
+namespace MC2P;
 
 require_once('Mixins.php');
 
@@ -68,8 +68,6 @@ class ObjectItem extends ObjectItemMixin
     protected $mixin;
     protected $payload;
     protected $resource;
-
-    private $_deleted = false;
 
     /**
      * @param array    $payload

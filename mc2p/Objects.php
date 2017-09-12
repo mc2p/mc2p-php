@@ -1,6 +1,6 @@
 <?php
 
-namespace MyChoice2Pay;
+namespace MC2P;
 
 require_once('Base.php');
 require_once('Mixins.php');

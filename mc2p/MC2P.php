@@ -1,6 +1,6 @@
 <?php
 
-namespace MyChoice2Pay;
+namespace MC2P;
 
 require_once('Request.php');
 require_once('Objects.php');
@@ -22,17 +22,17 @@ class APIClient
     {
         $this->apiRequest = new APIRequest($key, $secret);
 
-        $this->product = new ProductResource($this->apiRequest, '/product/', 'MyChoice2Pay\Product');
-        $this->plan = new PlanResource($this->apiRequest, '/plan/', 'MyChoice2Pay\Plan');
-        $this->tax = new TaxResource($this->apiRequest, '/tax/', 'MyChoice2Pay\Tax');
-        $this->shipping = new ShippingResource($this->apiRequest, '/shipping/', 'MyChoice2Pay\Shipping');
-        $this->coupon = new CouponResource($this->apiRequest, '/coupon/', 'MyChoice2Pay\Coupon');
-        $this->transaction = new TransactionResource($this->apiRequest, '/transaction/', 'MyChoice2Pay\Transaction');
-        $this->subscription = new SubscriptionResource($this->apiRequest, '/subscription/', 'MyChoice2Pay\Subscription');
-        $this->currency = new CurrencyResource($this->apiRequest, '/currency/', 'MyChoice2Pay\Currency');
-        $this->gateway = new GatewayResource($this->apiRequest, '/gateway/', 'MyChoice2Pay\Gateway');
-        $this->payData = new PayDataResource($this->apiRequest, '/pay/', 'MyChoice2Pay\PayData');
-        $this->sale = new SaleResource($this->apiRequest, '/sale/', 'MyChoice2Pay\Sale');
+        $this->product = new ProductResource($this->apiRequest, '/product/', 'MC2P\Product');
+        $this->plan = new PlanResource($this->apiRequest, '/plan/', 'MC2P\Plan');
+        $this->tax = new TaxResource($this->apiRequest, '/tax/', 'MC2P\Tax');
+        $this->shipping = new ShippingResource($this->apiRequest, '/shipping/', 'MC2P\Shipping');
+        $this->coupon = new CouponResource($this->apiRequest, '/coupon/', 'MC2P\Coupon');
+        $this->transaction = new TransactionResource($this->apiRequest, '/transaction/', 'MC2P\Transaction');
+        $this->subscription = new SubscriptionResource($this->apiRequest, '/subscription/', 'MC2P\Subscription');
+        $this->currency = new CurrencyResource($this->apiRequest, '/currency/', 'MC2P\Currency');
+        $this->gateway = new GatewayResource($this->apiRequest, '/gateway/', 'MC2P\Gateway');
+        $this->payData = new PayDataResource($this->apiRequest, '/pay/', 'MC2P\PayData');
+        $this->sale = new SaleResource($this->apiRequest, '/sale/', 'MC2P\Sale');
     }
 
     /**
@@ -50,7 +50,7 @@ class APIClient
      */
     public function Product ($payload = array()) 
     {
-        return $this->__wrapper('MyChoice2Pay\Product', $this->product, $payload);
+        return $this->__wrapper('MC2P\Product', $this->product, $payload);
     }
 
     /**
@@ -58,7 +58,7 @@ class APIClient
      */
     public function Plan ($payload = array()) 
     {
-        return $this->__wrapper('MyChoice2Pay\Plan', $this->plan, $payload);
+        return $this->__wrapper('MC2P\Plan', $this->plan, $payload);
     }
 
     /**
@@ -66,7 +66,7 @@ class APIClient
      */
     public function Tax ($payload = array()) 
     {
-        return $this->__wrapper('MyChoice2Pay\Tax', $this->tax, $payload);
+        return $this->__wrapper('MC2P\Tax', $this->tax, $payload);
     }
 
     /**
@@ -74,7 +74,7 @@ class APIClient
      */
     public function Shipping ($payload = array()) 
     {
-        return $this->__wrapper('MyChoice2Pay\Shipping', $this->shipping, $payload);
+        return $this->__wrapper('MC2P\Shipping', $this->shipping, $payload);
     }
 
     /**
@@ -82,7 +82,7 @@ class APIClient
      */
     public function Coupon ($payload = array()) 
     {
-        return $this->__wrapper('MyChoice2Pay\Coupon', $this->coupon, $payload);
+        return $this->__wrapper('MC2P\Coupon', $this->coupon, $payload);
     }
 
     /**
@@ -90,7 +90,7 @@ class APIClient
      */
     public function Transaction ($payload = array()) 
     {   
-        return $this->__wrapper('MyChoice2Pay\Transaction', $this->transaction, $payload);
+        return $this->__wrapper('MC2P\Transaction', $this->transaction, $payload);
     }
 
     /**
@@ -98,7 +98,7 @@ class APIClient
      */
     public function Subscription ($payload = array()) 
     {
-        return $this->__wrapper('MyChoice2Pay\Subscription', $this->subscription, $payload);
+        return $this->__wrapper('MC2P\Subscription', $this->subscription, $payload);
     }
 
     /**
@@ -106,7 +106,7 @@ class APIClient
      */
     public function Sale ($payload = array()) 
     {
-        return $this->__wrapper('MyChoice2Pay\Sale', $this->sale, $payload);
+        return $this->__wrapper('MC2P\Sale', $this->sale, $payload);
     }
 
     /**
@@ -114,7 +114,7 @@ class APIClient
      */
     public function Currency ($payload = array()) 
     {
-        return $this->__wrapper('MyChoice2Pay\Currency', $this->currency, $payload);
+        return $this->__wrapper('MC2P\Currency', $this->currency, $payload);
     }
 
     /**
@@ -122,7 +122,7 @@ class APIClient
      */
     public function Gateway ($payload = array()) 
     {
-        return $this->__wrapper('MyChoice2Pay\Gateway', $this->gateway, $payload);
+        return $this->__wrapper('MC2P\Gateway', $this->gateway, $payload);
     }
 
     /**
@@ -130,7 +130,7 @@ class APIClient
      */
     public function PayData ($payload = array()) 
     {
-        return $this->__wrapper('MyChoice2Pay\PayData', $this->payData, $payload);
+        return $this->__wrapper('MC2P\PayData', $this->payData, $payload);
     }
 
     /**
@@ -138,6 +138,6 @@ class APIClient
      */
     public function NotificationData ($payload = array()) 
     {
-        return $this->__wrapper('MyChoice2Pay\NotificationData', $this, $payload);
+        return $this->__wrapper('MC2P\NotificationData', $this, $payload);
     }
 }

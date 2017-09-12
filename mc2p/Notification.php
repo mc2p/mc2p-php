@@ -1,6 +1,6 @@
 <?php
 
-namespace MyChoice2Pay;
+namespace MC2P;
 
 /**
  * Class to manage notification from MyChoice2Pay

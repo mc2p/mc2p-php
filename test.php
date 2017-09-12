@@ -3,7 +3,7 @@
 
 require_once(join(DIRECTORY_SEPARATOR, array('mc2p', 'MC2P.php')));
 
-use MyChoice2Pay as MC2P;
+use MC2P as mc2p;
 
 
 // Upload a publicly accessible file. The file size and type are determined by the SDK.
@@ -11,7 +11,7 @@ try {
     $key = 'fd1e7e20a676';
     $secret = 'a88402f080b54547ad07114a13c1a375';
 
-    $client = new MC2P\APIClient($key, $secret);
+    $client = new mc2p\APIClient($key, $secret);
 
     # Create transaction
     $transaction = $client->Transaction(
