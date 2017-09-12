@@ -69,7 +69,7 @@ class ObjectItem extends ObjectItemMixin
     protected $payload;
     protected $resource;
 
-    private $deleted = false;
+    private $_deleted = false;
 
     /**
      * @param array    $payload
@@ -88,11 +88,19 @@ class ObjectItem extends ObjectItemMixin
      */
     public function __get($name) 
     {
-        print_r($name.'\n');
+        switch ($name) {
+            case 'payload':
+                return $this->payload;
 
-        var_dump($this->payload);
+            case 'resource':
+                return $this->resource;
 
-        return $this->payload[$name];
+            case '_deleted':
+                return $this->_deleted;
+
+            default:
+                return $this->payload->{$name};
+        }
     }
 
     /**
@@ -110,11 +118,11 @@ class ObjectItem extends ObjectItemMixin
             case 'resource':
                 $this->resource = $value;
                 break;
-            case 'deleted':
-                $this->deleted = $value;
+            case '_deleted':
+                $this->_deleted = $value;
                 break;
             default:
-                $this->payload[$key] = $value;
+                $this->payload[$name] = $value;
                 break;
         }
     }
@@ -133,7 +141,7 @@ class ReadOnlyObjectItem extends ObjectItem
      */
     public function __construct ($payload, $resource) 
     {
-        $this->retrieveMixin = new RetrieveObjectItemMixin();
+        $this->retrieveMixin = new RetrieveObjectItemMixin($payload, $resource);
         parent::__construct($payload, $resource);
     }
 
@@ -160,6 +168,7 @@ class ReadOnlyObjectItem extends ObjectItem
     public function retrieve()
     {
         $this->retrieveMixin->retrieve();
+        $this->payload = $this->retrieveMixin->payload;
     }
 }
 
@@ -176,7 +185,7 @@ class CRObjectItem extends ReadOnlyObjectItem
      */
     public function __construct ($payload, $resource) 
     {
-        $this->createMixin = new CreateObjectItemMixin();
+        $this->createMixin = new CreateObjectItemMixin($payload, $resource);
         parent::__construct($payload, $resource);
     }
 
@@ -186,6 +195,7 @@ class CRObjectItem extends ReadOnlyObjectItem
     private function __create()
     {
         $this->createMixin->__create();
+        $this->payload = $this->createMixin->payload;   
     }
  
     /**
@@ -194,6 +204,7 @@ class CRObjectItem extends ReadOnlyObjectItem
     public function save()
     {
         $this->createMixin->save();
+        $this->payload = $this->createMixin->payload;        
     }
 }
 
@@ -210,7 +221,7 @@ class CRUObjectItem extends CRObjectItem
      */
     public function __construct ($payload, $resource) 
     {
-        $this->saveMixin = new SaveObjectItemMixin();
+        $this->saveMixin = new SaveObjectItemMixin($payload, $resource);
         parent::__construct($payload, $resource);
     }
 
@@ -220,6 +231,7 @@ class CRUObjectItem extends CRObjectItem
     private function __create()
     {
         $this->createMixin->__create();
+        $this->payload = $this->createMixin->payload;   
     }
  
     /**
@@ -228,6 +240,7 @@ class CRUObjectItem extends CRObjectItem
     private function __change()
     {
         $this->saveMixin->__create();
+        $this->payload = $this->saveMixin->payload;   
     }
 
     /**
@@ -236,6 +249,7 @@ class CRUObjectItem extends CRObjectItem
     public function save()
     {
         $this->saveMixin->save();
+        $this->payload = $this->saveMixin->payload;
     }
 }
 
@@ -252,7 +266,7 @@ class CRUDObjectItem extends CRUObjectItem
      */
     public function __construct ($payload, $resource) 
     {
-        $this->deleteMixin = new DeleteObjectItemMixin();
+        $this->deleteMixin = new DeleteObjectItemMixin($payload, $resource);
         parent::__construct($payload, $resource);
     }
 
@@ -262,6 +276,7 @@ class CRUDObjectItem extends CRUObjectItem
     public function delete()
     {
         $this->deleteMixin->delete();
+        $this->_deleted = $this->deleteMixin->_deleted;
     }
 }
 
@@ -278,17 +293,19 @@ class CRUDObjectItem extends CRUObjectItem
      */
     public function __construct ($payload, $resource) 
     {
-        $this->payURLMixin = new PayURLMixin();
+        $this->payURLMixin = new PayURLMixin($payload, $resource);
         parent::__construct($payload, $resource);
     }
 
     public function getPayUrl()
     {   
+        $this->payURLMixin->payload = $this->payload;
         return $this->payURLMixin->getPayUrl();
     }
     
     public function getIframeUrl()
     {   
+        $this->payURLMixin->payload = $this->payload;
         return $this->payURLMixin->getIframeUrl();
     }
 }
@@ -304,9 +321,9 @@ class Resource extends ResourceMixin
     /**
      * @param array    $apiRequest
      */
-    public function __construct ($apiRequest) 
+    public function __construct ($apiRequest, $path, $objItemClass) 
     {
-        $this->apiRequest = $apiRequest;
+        parent::__construct($apiRequest, $path, $objItemClass, self::PAGINATOR_CLASS);
     }
 }
 
@@ -320,10 +337,10 @@ class DetailOnlyResource extends Resource
     /**
      * @param array    $apiRequest
      */
-    public function __construct ($apiRequest) 
+    public function __construct ($apiRequest, $path, $objItemClass) 
     {
-        $doResourceMixin = new DetailOnlyResourceMixin();
-        parent::__construct($apiRequest);
+        $this->doResourceMixin = new DetailOnlyResourceMixin($apiRequest, $path, $objItemClass, self::PAGINATOR_CLASS);
+        parent::__construct($apiRequest, $path, $objItemClass);
     }
 
     /**
@@ -332,7 +349,7 @@ class DetailOnlyResource extends Resource
      */
     public function detail($resourceId) 
     {
-        return $doResourceMixin->detail($resourceId);
+        return $this->doResourceMixin->detail($resourceId);
     }
 }
 
@@ -346,10 +363,10 @@ class ReadOnlyResource extends Resource
     /**
      * @param array    $apiRequest
      */
-    public function __construct ($apiRequest) 
+    public function __construct ($apiRequest, $path, $objItemClass) 
     {
-        $roResourceMixin = new ReadOnlyResourceMixin();
-        parent::__construct($apiRequest);
+        $this->roResourceMixin = new ReadOnlyResourceMixin($apiRequest, $path, $objItemClass, self::PAGINATOR_CLASS);
+        parent::__construct($apiRequest, $path, $objItemClass);
     }
 
     /**
@@ -358,7 +375,7 @@ class ReadOnlyResource extends Resource
      */
     public function itemList($absUrl) 
     {
-        return $roResourceMixin->itemList($absUrl);
+        return $this->roResourceMixin->itemList($absUrl);
     }
 }
 
@@ -372,10 +389,10 @@ class CRResource extends ReadOnlyResource
     /**
      * @param array    $apiRequest
      */
-    public function __construct ($apiRequest) 
+    public function __construct ($apiRequest, $path, $objItemClass) 
     {
-        $createResourceMixin = new CreateResourceMixin();
-        parent::__construct($apiRequest);
+        $this->createResourceMixin = new CreateResourceMixin($apiRequest, $path, $objItemClass, self::PAGINATOR_CLASS);
+        parent::__construct($apiRequest, $path, $objItemClass);
     }
 
     /**
@@ -384,7 +401,7 @@ class CRResource extends ReadOnlyResource
      */
     public function create($data)
     {
-        return $createResourceMixin->create($data);
+        return $this->createResourceMixin->create($data);
     }
 }
 
@@ -399,11 +416,11 @@ class CRUDResource extends CRResource
     /**
      * @param array    $apiRequest
      */
-    public function __construct ($apiRequest) 
+    public function __construct ($apiRequest, $path, $objItemClass) 
     {
-        $changeResourceMixin = new ChangeResourceMixin();
-        $deleteResourceMixin = new DeleteResourceMixin();
-        parent::__construct($apiRequest);
+        $this->changeResourceMixin = new ChangeResourceMixin($apiRequest, $path, $objItemClass, self::PAGINATOR_CLASS);
+        $this->deleteResourceMixin = new DeleteResourceMixin($apiRequest, $path, $objItemClass, self::PAGINATOR_CLASS);
+        parent::__construct($apiRequest, $path, $objItemClass);
     }
 
     /**
@@ -413,7 +430,8 @@ class CRUDResource extends CRResource
      */
     public function change($resourceId, $data)
     {
-        return $changeResourceMixin->change($resourceId, $data);
+        $this->changeResourceMixin->payload = $this->payload;        
+        return $this->changeResourceMixin->change($resourceId, $data);
     }
 
     /**
@@ -422,6 +440,7 @@ class CRUDResource extends CRResource
      */
      public function delete($resourceId)
      {
-         return $deleteResourceMixin->delete($resourceId);
+         $this->deleteResourceMixin->payload = $this->payload;
+         return $this->deleteResourceMixin->delete($resourceId);
      }
 }
