@@ -22,17 +22,17 @@ class APIClient
     {
         $this->apiRequest = new APIRequest($key, $secret);
 
-        $this->product = new ProductResource($this->apiRequest);
-        $this->plan = new PlanResource($this->apiRequest);
-        $this->tax = new TaxResource($this->apiRequest);
-        $this->shipping = new ShippingResource($this->apiRequest);
-        $this->coupon = new CouponResource($this->apiRequest);
-        $this->transaction = new TransactionResource($this->apiRequest);
-        $this->subscription = new SubscriptionResource($this->apiRequest);
-        $this->sale = new SaleResource($this->apiRequest);
-        $this->currency = new CurrencyResource($this->apiRequest);
-        $this->gateway = new GatewayResource($this->apiRequest);
-        $this->payData = new PayDataResource($this->apiRequest);
+        $this->product = new ProductResource($this->apiRequest, '/product/', 'MyChoice2Pay\Product');
+        $this->plan = new PlanResource($this->apiRequest, '/plan/', 'MyChoice2Pay\Plan');
+        $this->tax = new TaxResource($this->apiRequest, '/tax/', 'MyChoice2Pay\Tax');
+        $this->shipping = new ShippingResource($this->apiRequest, '/shipping/', 'MyChoice2Pay\Shipping');
+        $this->coupon = new CouponResource($this->apiRequest, '/coupon/', 'MyChoice2Pay\Coupon');
+        $this->transaction = new TransactionResource($this->apiRequest, '/transaction/', 'MyChoice2Pay\Transaction');
+        $this->subscription = new SubscriptionResource($this->apiRequest, '/subscription/', 'MyChoice2Pay\Subscription');
+        $this->currency = new CurrencyResource($this->apiRequest, '/currency/', 'MyChoice2Pay\Currency');
+        $this->gateway = new GatewayResource($this->apiRequest, '/gateway/', 'MyChoice2Pay\Gateway');
+        $this->payData = new PayDataResource($this->apiRequest, '/pay/', 'MyChoice2Pay\PayData');
+        $this->sale = new SaleResource($this->apiRequest, '/sale/', 'MyChoice2Pay\Sale');
     }
 
     /**
@@ -89,7 +89,7 @@ class APIClient
      * @param array   $payload
      */
     public function Transaction ($payload = array()) 
-    {
+    {   
         return $this->__wrapper('MyChoice2Pay\Transaction', $this->transaction, $payload);
     }
 
