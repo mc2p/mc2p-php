@@ -13,13 +13,19 @@ You can install using `composer`:
 
     composer require mc2p/mc2p-php
 
+or from source code:
+
+    git clone https://github.com/mc2p/mc2p-php mc2p
+
 # Quick Start Example
 
-    require_once __DIR__ . '/vendor/autoload.php'; // Autoload files using Composer autoload
+    require_once __DIR__ . '/vendor/autoload.php'; // If you install from composer
+
+    require_once('mc2p/src/MC2P/MC2PClient.php');  // If you install from source code
 
     use MC2P\MC2PClient;
 
-    $mc2p = MC2PClient('KEY', 'SECRET_KEY')
+    $mc2p = new MC2PClient('KEY', 'SECRET_KEY');
 
     # Create transaction
     $transaction = $mc2p->Transaction(
