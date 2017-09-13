@@ -34,6 +34,18 @@ or from source code:
             "products" => array(
                 array(
                     "amount" => 1,
+                    "product_id" => "PRODUCT-ID"
+                )
+            )
+        )
+    );
+    # or with product details
+    $transaction = $mc2p->Transaction(
+        array(
+            "currency" => "EUR",
+            "products" => array(
+                array(
+                    "amount" => 1,
                     "product" => array(
                         "name" => "Product",
                         "price" => 5
@@ -89,7 +101,7 @@ or from source code:
             "note" => "Note example"
         )
     )
-    # or
+    # or with plan details
     $subscription = $mc2p->Subscription(
         array(
             "currency" => "EUR",
