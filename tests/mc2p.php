@@ -161,7 +161,7 @@ try {
 
 } catch (Exception $e) {
     var_dump($e);
-    echo "There was an error testing the SDK.\n";
+    echo "There was an error testing the PHP SDK.\n";
 }
 
 exit (0);
