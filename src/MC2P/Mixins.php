@@ -192,6 +192,25 @@ class RefundCaptureVoidObjectItemMixin extends ObjectItemMixin
         return $this->resource->void($id, $data);
     }
 }
+  
+
+/**
+ * Allows make charge an object item
+ */
+class ChargeObjectItemMixin extends ObjectItemMixin
+{
+    /**
+     * Charge the object item
+     * 
+     * @param array $data
+     * @return array Object item from server
+     */
+    public function charge(Array $data = null)
+    {
+        $id = $this->getId();
+        return $this->resource->charge($id, $data);
+    }
+}
 
 /**
  * Allows make card and share an object item
@@ -456,6 +475,22 @@ class RefundCaptureVoidResourceMixin extends ActionsResourceMixin
     {
         $func = array($this->apiRequest, 'post200');
         return $this->__oneItemAction($func, $resourceId, 'void', $data);
+    }
+}
+
+/*
+ * Allows send action requests of charge
+ */
+class ChargeResourceMixin extends ActionsResourceMixin
+{
+    /**
+     * @param string $resourceId
+     * @param array $data
+     */
+    public function charge($resourceId, $data) 
+    {
+        $func = array($this->apiRequest, 'post200');
+        return $this->__oneItemAction($func, $resourceId, 'charge', $data);
     }
 }
 

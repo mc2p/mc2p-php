@@ -42,6 +42,36 @@ class TransactionResource extends CRResource {}
 class SubscriptionResource extends CRResource {}
 
 /**
+ * Authorization resource
+ */
+class AuthorizationResource extends CRResource 
+{
+
+    protected $cResourceMixin;
+    
+    /**
+     * @param array    $apiRequest
+     */
+    public function __construct ($apiRequest, $path, $objItemClass) 
+    {
+        parent::__construct($apiRequest, $path, $objItemClass);
+        $cResourceMixin = new ChargeResourceMixin($apiRequest, $path, $objItemClass, $this->paginatorClass);
+    }
+        
+    /**
+     * Charge the object item
+     * 
+     * @param array $data
+     * @return array Object item from server
+     */
+    public function charge(Array $data = null)
+    {
+        return $this->cResourceMixin->charge($data);
+    }
+
+}
+
+/**
  * Currency resource
  */
 class CurrencyResource extends ReadOnlyResource {}
