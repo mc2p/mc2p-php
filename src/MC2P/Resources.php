@@ -55,7 +55,7 @@ class AuthorizationResource extends CRResource
     public function __construct ($apiRequest, $path, $objItemClass) 
     {
         parent::__construct($apiRequest, $path, $objItemClass);
-        $cResourceMixin = new ChargeResourceMixin($apiRequest, $path, $objItemClass, $this->paginatorClass);
+        $this->cResourceMixin = new ChargeResourceMixin($apiRequest, $path, $objItemClass, $this->paginatorClass);
     }
         
     /**
@@ -94,7 +94,7 @@ class SaleResource extends ReadOnlyResource
     public function __construct ($apiRequest, $path, $objItemClass) 
     {
         parent::__construct($apiRequest, $path, $objItemClass);
-        $rCVResourceMixin = new RefundCaptureVoidResourceMixin($apiRequest, $path, $objItemClass, $this->paginatorClass);
+        $this->rCVResourceMixin = new RefundCaptureVoidResourceMixin($apiRequest, $path, $objItemClass, $this->paginatorClass);
     }
         
     /**
@@ -144,7 +144,7 @@ class PayDataResource extends DetailOnlyResource
     public function __construct ($apiRequest, $path, $objItemClass) 
     {
         parent::__construct($apiRequest, $path, $objItemClass);
-        $cardShareResourceMixin = new CardShareResourceMixin($apiRequest, $path, $objItemClass, $this->paginatorClass);
+        $this->cardShareResourceMixin = new CardShareResourceMixin($apiRequest, $path, $objItemClass, $this->paginatorClass);
     }
 
     /**

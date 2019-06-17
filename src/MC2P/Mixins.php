@@ -438,7 +438,7 @@ class ActionsResourceMixin extends ResourceMixin
     protected function __oneItemAction($func, $resourceId, $action, $data = null) 
     {
         $url = $this->getDetailActionUrl($resourceId, $action);
-        return call_user_func($url, $data, $this, $resourceId);
+        return call_user_func($func, $url, $data, null, $this, $resourceId);
     }
 }
 
