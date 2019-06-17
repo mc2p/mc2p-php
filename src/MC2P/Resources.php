@@ -64,9 +64,9 @@ class AuthorizationResource extends CRResource
      * @param array $data
      * @return array Object item from server
      */
-    public function charge(Array $data = null)
+    public function charge($resourceId, Array $data = null)
     {
-        return $this->cResourceMixin->charge($data);
+        return $this->cResourceMixin->charge($resourceId, $data);
     }
 
 }
@@ -103,9 +103,9 @@ class SaleResource extends ReadOnlyResource
      * @param array $data
      * @return array Object item from server
      */
-    public function refund(Array $data = null)
+    public function refund($resourceId, Array $data = null)
     {
-        return $this->rCVResourceMixin->refund($data);
+        return $this->rCVResourceMixin->refund($resourceId, $data);
     }
 
     /**
@@ -114,9 +114,9 @@ class SaleResource extends ReadOnlyResource
      * @param array $data
      * @return array Object item from server
      */
-    public function capture(Array $data = null)
+    public function capture($resourceId, Array $data = null)
     {
-        return $this->rCVResourceMixin->capture($data);
+        return $this->rCVResourceMixin->capture($resourceId, $data);
     }
 
     /**
@@ -125,9 +125,9 @@ class SaleResource extends ReadOnlyResource
      * @param array $data
      * @return array Object item from server
      */
-    public function void(Array $data = null)
+    public function void($resourceId, Array $data = null)
     {
-        return $this->rCVResourceMixin->void($data);
+        return $this->rCVResourceMixin->void($resourceId, $data);
     }
 }
   
