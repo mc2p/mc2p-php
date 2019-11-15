@@ -46,6 +46,7 @@ class Subscription extends PayURLCRObjectItem {}
 class Authorization extends PayURLCRObjectItem 
 {
     protected $cMixin;
+    protected $rMixin;
     
     /**
      * @param array    $payload
@@ -54,6 +55,7 @@ class Authorization extends PayURLCRObjectItem
     public function __construct ($payload, $resource) 
     {
         $this->cMixin = new ChargeObjectItemMixin($payload, $resource);
+        $this->rMixin = new RemoveObjectItemMixin($payload, $resource);
         parent::__construct($payload, $resource);
     }
     
@@ -67,6 +69,17 @@ class Authorization extends PayURLCRObjectItem
     {
         $this->cMixin->payload = $this->payload;
         return $this->cMixin->charge($data);
+    }
+    
+    /**
+     * Remove authorization the object item
+     * 
+     * @return array Object item from server
+     */
+    public function remove()
+    {
+        $this->rMixin->payload = $this->payload;
+        return $this->rMixin->remove();
     }
 }
 

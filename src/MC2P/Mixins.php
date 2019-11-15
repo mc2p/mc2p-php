@@ -211,6 +211,24 @@ class ChargeObjectItemMixin extends ObjectItemMixin
         return $this->resource->charge($id, $data);
     }
 }
+  
+
+/**
+ * Allows make remove authorization an object item
+ */
+class RemoveObjectItemMixin extends ObjectItemMixin
+{
+    /**
+     * Remove authorization the object item
+     * 
+     * @return array Object item from server
+     */
+    public function remove()
+    {
+        $id = $this->getId();
+        return $this->resource->remove($id);
+    }
+}
 
 /**
  * Allows make card and share an object item
@@ -491,6 +509,21 @@ class ChargeResourceMixin extends ActionsResourceMixin
     {
         $func = array($this->apiRequest, 'post200');
         return $this->__oneItemAction($func, $resourceId, 'charge', $data);
+    }
+}
+
+/*
+ * Allows send action requests of remove authorization
+ */
+class RemoveResourceMixin extends ActionsResourceMixin
+{
+    /**
+     * @param string $resourceId
+     */
+    public function remove($resourceId) 
+    {
+        $func = array($this->apiRequest, 'post200');
+        return $this->__oneItemAction($func, $resourceId, 'remove');
     }
 }
 

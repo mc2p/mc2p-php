@@ -48,6 +48,7 @@ class AuthorizationResource extends CRResource
 {
 
     protected $cResourceMixin;
+    protected $rResourceMixin;
     
     /**
      * @param array    $apiRequest
@@ -56,6 +57,7 @@ class AuthorizationResource extends CRResource
     {
         parent::__construct($apiRequest, $path, $objItemClass);
         $this->cResourceMixin = new ChargeResourceMixin($apiRequest, $path, $objItemClass, $this->paginatorClass);
+        $this->rResourceMixin = new RemoveResourceMixin($apiRequest, $path, $objItemClass, $this->paginatorClass);
     }
         
     /**
@@ -67,6 +69,16 @@ class AuthorizationResource extends CRResource
     public function charge($resourceId, Array $data = null)
     {
         return $this->cResourceMixin->charge($resourceId, $data);
+    }
+        
+    /**
+     * Remove authorization the object item
+     * 
+     * @return array Object item from server
+     */
+    public function remove($resourceId)
+    {
+        return $this->rResourceMixin->remove($resourceId);
     }
 
 }
