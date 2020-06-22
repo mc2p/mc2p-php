@@ -191,3 +191,13 @@ class PayData extends ReadOnlyObjectItem
         return $this->cardShareMixin->share($data);        
     }
 }
+
+/**
+ * Client object
+ */
+class Client extends CRUDObjectItem {}
+
+/**
+ * Wallet object
+ */
+class Wallet extends CRUDObjectItem {}

@@ -182,3 +182,13 @@ class PayDataResource extends DetailOnlyResource
         return $this->cardShareResourceMixin->share($data);        
     }
 }
+
+/**
+ * Client resource
+ */
+class ClientResource extends CRUDResource {}
+
+/**
+ * Wallet resource
+ */
+class WalletResource extends CRUDResource {}
