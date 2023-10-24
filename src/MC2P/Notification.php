@@ -21,7 +21,7 @@ class NotificationData
     }
 
     /**
-     * @return string Status of payment
+     * @return string ID of transaction or authorization
      */
     public function getId() 
     {
@@ -58,6 +58,14 @@ class NotificationData
     public function getOrderId() 
     {
         return $this->payload['order_id'];
+    }
+
+    /**
+     * @return string Amount
+     */
+    public function getAmount() 
+    {
+        return $this->payload['amount'];
     }
 
     /**
@@ -149,6 +157,14 @@ class NotificationData
             return $authorization;
         }
         return null;
+    }
+
+    /**
+     * @return string Sale ID
+     */
+    public function getSaleId() 
+    {
+        return $this->payload['sale_id'];
     }
 
     /**
